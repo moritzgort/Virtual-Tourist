@@ -10,7 +10,7 @@ import Foundation
 
 let DEBUG = false
 
-public class HTTPClient {
+public class HTTPClient: NSObject {
     
     struct Constants {
         static let DateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'"
@@ -19,7 +19,7 @@ public class HTTPClient {
     var session: NSURLSession
     var delegate: HTTPClientProtocol!
     
-    init() {
+    override init() {
         session = NSURLSession.sharedSession()
     }
     

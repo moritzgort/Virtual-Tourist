@@ -21,9 +21,9 @@ class PendingPhotoDownloads: NSObject {
     var downloadQueue: NSOperationQueue
     var downloadWorkers: Set<PhotoDownloadWorker> = Set()
     
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+//    required init(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
     
     override init() {
         downloadQueue = NSOperationQueue()
