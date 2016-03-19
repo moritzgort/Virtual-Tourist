@@ -114,7 +114,7 @@ public class PhotoDownloadWorker: NSOperation, NSURLSessionDataDelegate {
     }
     
     public func URLSession(session: NSURLSession, task: NSURLSessionTask, didCompleteWithError error: NSError?) {
-        if let error = error {
+        if let _ = error {
             print("Error downloading photo \(photo)")
         }
         

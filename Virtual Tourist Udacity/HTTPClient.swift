@@ -19,19 +19,22 @@ public class HTTPClient {
     var session: NSURLSession
     var delegate: HTTPClientProtocol!
     
-    override init() {
+    init() {
         session = NSURLSession.sharedSession()
-        super.init()
     }
     
-    convenience init(delegate: HTTPClientProtocol) {
+    convenience init(delegate:HTTPClientProtocol) {
         self.init()
         self.delegate = delegate
     }
     
+    required public init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func taskWithBodyMethod(httpMethod: String, method: String, parameters: [String: AnyObject], jsonBody: [String: AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
-        let mutableJsonBody = self.delegate.processJsonBody(jsonBody)
+        let mutableJsonBody = self.delegate.processJSONBody(jsonBody)
         
         let urlString = self.delegate.getBaseURLSecure() + method + HTTPClient.escapedParameters(parameters)
         let url = NSURL(string: urlString)!
@@ -99,7 +102,7 @@ public class HTTPClient {
     }
     
     class func errorForData(data: NSData?, response: NSURLResponse?, error: NSError?) -> NSError {
-        if let parsedResult = (try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as? [String:AnyObject] {
+        if let parsedResult = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as? [String:AnyObject] {
             if let errorMessage = parsedResult[HTTPClient.JSONResponseKeys.ErrorMessage] as? String {
                 let userInfo = [NSLocalizedDescriptionKey: errorMessage]
                 if let errorCode = parsedResult[HTTPClient.JSONResponseKeys.Status] as? Int {
@@ -109,7 +112,7 @@ public class HTTPClient {
                 }
             }
         }
-        return error
+        return error!
     }
     
     class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {

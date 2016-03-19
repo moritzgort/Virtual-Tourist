@@ -17,7 +17,7 @@ public class FlickrClient: NSObject, HTTPClientProtocol {
     
     override init() {
         super.init()
-        self.httpClient = HTTPClient(delete: self)
+        self.httpClient = HTTPClient(delegate: self)
     }
     
     public func getBaseURLSecure() -> String {
@@ -29,7 +29,7 @@ public class FlickrClient: NSObject, HTTPClientProtocol {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
     }
     
-    public func processJsonBody(jsonBody: [String: AnyObject]) -> [String: AnyObject] {
+    public func processJSONBody(jsonBody: [String: AnyObject]) -> [String: AnyObject] {
         return jsonBody
     }
     

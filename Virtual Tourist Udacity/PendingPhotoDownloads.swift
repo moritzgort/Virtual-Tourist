@@ -8,7 +8,7 @@
 
 import Foundation
 
-class PendingPhotoDownloads {
+class PendingPhotoDownloads: NSObject {
     
     class func sharedInstance() -> PendingPhotoDownloads {
         struct Static {
@@ -20,6 +20,10 @@ class PendingPhotoDownloads {
     var downloadInProgress: [Int:AnyObject] = [Int:AnyObject]()
     var downloadQueue: NSOperationQueue
     var downloadWorkers: Set<PhotoDownloadWorker> = Set()
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override init() {
         downloadQueue = NSOperationQueue()

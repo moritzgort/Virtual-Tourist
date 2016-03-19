@@ -59,12 +59,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="deleteView" destination="Hvv-RJ-yty" id="A4S-0g-MxJ"/>
+                        <outlet property="deleteView" destination="Hvv-RJ-yty" id="Nrb-jY-dcx"/>
                         <outlet property="deleteViewTopConstraint" destination="WEQ-Ts-QSp" id="h3v-Sd-C8J"/>
                         <outlet property="editButton" destination="OOG-tp-6RY" id="CpZ-Ia-kl3"/>
                         <outlet property="mapView" destination="FLE-1D-B0x" id="RaA-dW-VPv"/>
                         <outlet property="mapViewBottomConstraint" destination="EdE-LK-Q3S" id="iX9-pN-Jew"/>
-                        <segue destination="0ap-HX-9ec" kind="show" identifier="galerySegue" id="X7y-re-WPV">
+                        <segue destination="0ap-HX-9ec" kind="show" identifier="gallerySegue" id="X7y-re-WPV">
                             <nil key="action"/>
                         </segue>
                     </connections>
@@ -203,7 +203,7 @@
                     <connections>
                         <outlet property="collectionView" destination="1Ot-QN-R0r" id="oiJ-kJ-LWV"/>
                         <outlet property="mapView" destination="MrV-Vb-8Bs" id="DEJ-b4-KkO"/>
-                        <outlet property="newCollectionButton" destination="dwC-wM-Rf5" id="gsq-eu-ZTD"/>
+                        <outlet property="newCollection" destination="dwC-wM-Rf5" id="0LO-fX-6yJ"/>
                         <outlet property="noPhotosLabel" destination="owm-gV-8Tj" id="K4e-lG-lm7"/>
                     </connections>
                 </viewController>

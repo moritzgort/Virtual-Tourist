@@ -43,7 +43,7 @@ class VirtualTouristMapViewController: UIViewController, NSFetchedResultsControl
                 self.mapView.addAnnotation(toAdd)
             }
         }
-        self.updateViewConstraintsForMode()
+        self.updateConstraintsForMode()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -65,7 +65,7 @@ class VirtualTouristMapViewController: UIViewController, NSFetchedResultsControl
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         switch (type) {
         case NSFetchedResultsChangeType.Insert:
-            if let location: PinLocation = anObject as= PinLocation {
+            if let location: PinLocation = anObject as? PinLocation {
                 let annotation = MapPinAnnotation(latitude: location.latitude as Double, longitude: location.longitude as Double)
                 annotation.location = location
                 self.mapView.removeAnnotation(annotation)
@@ -96,7 +96,7 @@ class VirtualTouristMapViewController: UIViewController, NSFetchedResultsControl
             self.currentAnnotation!.location = location
             FlickrPhotoDelegate.sharedInstance().searchPhotos(location)
             let clocation = CLLocation(latitude: self.currentAnnotation!.coordinate.latitude, longitude: self.currentAnnotation!.coordinate.longitude)
-            CLGeocoder().reverseGeocodeLocation(clocation, { placemarks, error in
+            CLGeocoder().reverseGeocodeLocation(clocation) { placemarks, error in
                 if error != nil {
                     print("Reverse geocoder failed with error" + error!.localizedDescription)
                     return
@@ -166,12 +166,12 @@ class VirtualTouristMapViewController: UIViewController, NSFetchedResultsControl
         
         self.view.layoutIfNeeded()
         UIView.animateWithDuration(1.0, animations: {
-            self.updateConstrainstsForMode()
+            self.updateConstraintsForMode()
             self.view.layoutIfNeeded()
         })
     }
     
-    func updateConstrainstsForMode () {
+    func updateConstraintsForMode () {
         if self.editMode {
             self.deleteViewTopConstraint.constant = -71
             self.mapViewBottomConstraint.constant = 0

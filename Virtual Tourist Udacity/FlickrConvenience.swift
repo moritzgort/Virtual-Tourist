@@ -17,7 +17,7 @@ extension FlickrClient {
         self.getImageFromFlickrSearch(annotation) { success, result, errorString in print("Search Done!")
             if success {
                 let photos = [Photo]()
-                var urls:[NSURl] = NSURL()
+                var urls:[NSURL] = [NSURL]()
                 for nextPhoto in result! {
                     if urls.count >= MAX_PHOTOS {
                         break
@@ -115,12 +115,11 @@ extension FlickrClient {
     private func createBoundingBoxString(annotation: PinLocation) -> String {
         let latitude = annotation.latitude as Double
         let longitude = annotation.longitude as Double
-        let constants = FlickrClient.Constants()
         
-        let bottom_left_lon = max(longitude - constants.BOUNDING_BOX_HALF_WIDTH, constants.LON_MIN)
-        let bottom_left_lat = max(latitude - constants.BOUNDING_BOX_HALF_HEIGHT, constants.LAT_MIN)
-        let top_right_lon = min(longitude + constants.BOUNDING_BOX_HALF_HEIGHT, constants.LON_MAX)
-        let top_right_lat = min(latitude + constants.BOUNDING_BOX_HALF_HEIGHT, constants.LAT_MAX)
+        let bottom_left_lon = max(longitude - FlickrClient.Constants.BOUNDING_BOX_HALF_WIDTH, FlickrClient.Constants.LON_MIN)
+        let bottom_left_lat = max(latitude - FlickrClient.Constants.BOUNDING_BOX_HALF_HEIGHT, FlickrClient.Constants.LAT_MIN)
+        let top_right_lon = min(longitude + FlickrClient.Constants.BOUNDING_BOX_HALF_HEIGHT, FlickrClient.Constants.LON_MAX)
+        let top_right_lat = min(latitude + FlickrClient.Constants.BOUNDING_BOX_HALF_HEIGHT, FlickrClient.Constants.LAT_MAX)
         
         return "\(bottom_left_lon), \(bottom_left_lat), \(top_right_lon), \(top_right_lat)"
     }

@@ -21,6 +21,7 @@
 		8E26E6E81C9B10F300063778 /* VirtualTouristMapViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26E6E71C9B10F300063778 /* VirtualTouristMapViewDelegate.swift */; };
 		8E26E6EC1C9B126900063778 /* VTActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26E6EB1C9B126900063778 /* VTActivityViewController.swift */; };
 		8E26E6EE1C9B12B000063778 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E26E6ED1C9B12B000063778 /* PhotoCell.swift */; };
+		8E26E6F11C9C7B8900063778 /* VirtualTourist.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8E26E6EF1C9C7B8900063778 /* VirtualTourist.xcdatamodeld */; };
 		8EA699F11C913C980021F466 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EA699F01C913C980021F466 /* AppDelegate.swift */; };
 		8EA699F61C913C980021F466 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EA699F41C913C980021F466 /* Main.storyboard */; };
 		8EA699F91C913C980021F466 /* Virtual_Tourist_Udacity.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8EA699F71C913C980021F466 /* Virtual_Tourist_Udacity.xcdatamodeld */; };
@@ -76,6 +77,7 @@
 		8E26E6E71C9B10F300063778 /* VirtualTouristMapViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VirtualTouristMapViewDelegate.swift; sourceTree = "<group>"; };
 		8E26E6EB1C9B126900063778 /* VTActivityViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VTActivityViewController.swift; sourceTree = "<group>"; };
 		8E26E6ED1C9B12B000063778 /* PhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
+		8E26E6F01C9C7B8900063778 /* VirtualTourist.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VirtualTourist.xcdatamodel; sourceTree = "<group>"; };
 		8EA699ED1C913C980021F466 /* Virtual Tourist Udacity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Tourist Udacity.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EA699F01C913C980021F466 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8EA699F51C913C980021F466 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				8E26E6EA1C9B124A00063778 /* View */,
 				8EA699F01C913C980021F466 /* AppDelegate.swift */,
 				8EA699F41C913C980021F466 /* Main.storyboard */,
+				8E26E6EF1C9C7B8900063778 /* VirtualTourist.xcdatamodeld */,
 				8EA699FA1C913C980021F466 /* Assets.xcassets */,
 				8EA699FC1C913C980021F466 /* LaunchScreen.storyboard */,
 				8EA699FF1C913C980021F466 /* Info.plist */,
@@ -399,6 +402,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E26E6F11C9C7B8900063778 /* VirtualTourist.xcdatamodeld in Sources */,
 				8E0CB1551C99EA8F00608BC0 /* PhotoDownloadWorker.swift in Sources */,
 				8E0CB1511C99E6E600608BC0 /* Photo.swift in Sources */,
 				8EA69A371C91D8060021F466 /* FlickrConstants.swift in Sources */,
@@ -566,6 +570,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Virtual Tourist Udacity/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gabrielegort.Virtual-Tourist-Udacity";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -577,6 +582,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "Virtual Tourist Udacity/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.gabrielegort.Virtual-Tourist-Udacity";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -673,6 +679,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
+		8E26E6EF1C9C7B8900063778 /* VirtualTourist.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8E26E6F01C9C7B8900063778 /* VirtualTourist.xcdatamodel */,
+			);
+			currentVersion = 8E26E6F01C9C7B8900063778 /* VirtualTourist.xcdatamodel */;
+			path = VirtualTourist.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		8EA699F71C913C980021F466 /* Virtual_Tourist_Udacity.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (

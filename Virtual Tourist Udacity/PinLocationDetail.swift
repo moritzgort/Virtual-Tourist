@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 import MapKit
 
-public class PinLocationDetail: NSManagedObjectContext {
+public class PinLocationDetail: NSManagedObject {
     
     @NSManaged var locality: String
     @NSManaged var location: PinLocation
@@ -19,10 +19,14 @@ public class PinLocationDetail: NSManagedObjectContext {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    convenience init(location: PinLocation, locality: String, context: NSManagedObjectContext) {
+    convenience init(location:PinLocation, locality:String, context:NSManagedObjectContext) {
         self.init(context: context)
         
         self.locality = locality
         self.location = location
+    }
+
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

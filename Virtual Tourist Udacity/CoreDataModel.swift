@@ -43,8 +43,8 @@ public struct CoreDataModel: CustomStringConvertible {
     public var modelStoreNeedsMigration: Bool {
         get {
             do {
-                //let soureMetaData = try NSPersistentStoreCoordinator.metadataForPersistentStore(persistens)
-                //return !managedObjectModel.isConfiguration(nil, compatibleWithStoreMetadata: sourceMetaData)
+                let sourceMetaData = try NSPersistentStoreCoordinator.metadataForPersistentStoreOfType(nil, URL: storeURL)
+                return !managedObjectModel.isConfiguration(nil, compatibleWithStoreMetadata: sourceMetaData)
             } catch {
                 print("\(String(CoreDataModel.self)) ERROR: [\(__LINE__)] \(__FUNCTION__) Failure checking persistent store coordinator meta data: \(error)")
             }

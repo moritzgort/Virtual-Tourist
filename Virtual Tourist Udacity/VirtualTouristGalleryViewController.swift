@@ -108,7 +108,7 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
     func didSearchLocationImages(success: Bool, location: PinLocation, photos: [Photo]?, errorString: String?) {
         for next in annotation.location!.photos {
             if let downloadWorker = PendingPhotoDownloads.sharedInstance().downloadInProgress[next.description.hashValue] as? PhotoDownloadWorker {
-                downloadWorker.imageLoadDelegte.append(self)
+                downloadWorker.imageLoadDelegate.append(self)
             }
         }
         
@@ -153,7 +153,7 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
     func searchPhotosForLocation() {
         FlickrPhotoDelegate.sharedInstance().searchPhotos(self.annotation.location!)
         self.collectionView.hidden = true
-        self.newCollectionButton.enabled = false
+        self.newCollection.enabled = false
         self.view.layoutIfNeeded()
         self.updateToolBar(false)
         FlickrPhotoDelegate.sharedInstance().addDelegate(annotation.location!, delegate: self)
@@ -220,10 +220,10 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sectionInfo = self.fetchedResultsViewController.sections![section]
         
-        if let photos = self.annotation!.location?.photos where photos.count == 0 && self.isViewLoaded() && self.view.window != nil && self.newCollectionButton.enabled && !FlickrPhotoDelegate.sharedInstance().isLoading(annotation.location!) {
+        if let photos = self.annotation!.location?.photos where photos.count == 0 && self.isViewLoaded() && self.view.window != nil && self.newCollection.enabled && !FlickrPhotoDelegate.sharedInstance().isLoading(annotation.location!) {
             noPhotosLabel.hidden = false
             collectionView.hidden = true
-            dispatch_group_async(dispatch_get_main_queue()) {
+            dispatch_async(dispatch_get_main_queue()) {
                 self.searchPhotosForLocation()
             }
         }
