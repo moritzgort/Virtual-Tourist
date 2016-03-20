@@ -60,21 +60,21 @@ public class PhotoDownloadWorker:NSOperation, NSURLSessionDataDelegate {
     }
     
     func fireLoadFinish() {
-    
-    objc_sync_enter( PendingPhotoDownloads.sharedInstance().downloadWorkers)
-    PendingPhotoDownloads.sharedInstance().downloadWorkers.remove(self)
-    let pendingWorkers = PendingPhotoDownloads.sharedInstance().downloadWorkers.filter { !$0.finished && !$0.executing}
-    if let worker = pendingWorkers.first {
-    PendingPhotoDownloads.sharedInstance().downloadWorkers.insert(worker)
-    PendingPhotoDownloads.sharedInstance().downloadQueue.addOperation(worker)
-    }
-    objc_sync_exit( PendingPhotoDownloads.sharedInstance().downloadWorkers)
-    
-    for next in imageLoadDelegate {
-    dispatch_async(dispatch_get_main_queue()) {
-    next.didFinishLoad()
-    }
-    }
+        
+        objc_sync_enter( PendingPhotoDownloads.sharedInstance().downloadWorkers)
+        PendingPhotoDownloads.sharedInstance().downloadWorkers.remove(self)
+        let pendingWorkers = PendingPhotoDownloads.sharedInstance().downloadWorkers.filter { !$0.finished && !$0.executing}
+        if let worker = pendingWorkers.first {
+            PendingPhotoDownloads.sharedInstance().downloadWorkers.insert(worker)
+            PendingPhotoDownloads.sharedInstance().downloadQueue.addOperation(worker)
+        }
+        objc_sync_exit( PendingPhotoDownloads.sharedInstance().downloadWorkers)
+        
+        for next in imageLoadDelegate {
+            dispatch_async(dispatch_get_main_queue()) {
+                next.didFinishLoad()
+            }
+        }
     }
     
     override public func cancel() {

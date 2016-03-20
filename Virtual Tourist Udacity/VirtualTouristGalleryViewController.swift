@@ -26,14 +26,14 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
     
     var shouldFetch: Bool = false
     var activityView: VTActivityViewController?
-    var recognizer: UILongPressGestureRecognizer!
+    var recognizer: UITapGestureRecognizer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         noPhotosLabel.hidden = true
         if FlickrPhotoDelegate.sharedInstance().isLoading(annotation.location!) {
             self.shouldFetch = true
-            self.updateToolBar(false)
+            self.updateToolBar(true)
             FlickrPhotoDelegate.sharedInstance().addDelegate(annotation.location!, delegate: self)
             self.collectionView.hidden = true
             self.activityView = VTActivityViewController()
@@ -56,7 +56,7 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
             self.navigationItem.title = details.locality
         }
         
-        self.recognizer = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        self.recognizer = UITapGestureRecognizer(target: self, action: "handlePress:")
         self.collectionView.addGestureRecognizer(self.recognizer)
     }
     
@@ -81,7 +81,7 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
         collectionView.collectionViewLayout = getCollectionLayout()
     }
     
-    func handleLongPress(recognizer:UILongPressGestureRecognizer) {
+    func handlePress(recognizer:UITapGestureRecognizer) {
         if (recognizer.state != UIGestureRecognizerState.Ended) {
             return
         }
@@ -120,6 +120,7 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
             self.activityView?.closeView()
             self.activityView = nil
             self.collectionView.hidden = false
+            self.newCollectionButton.enabled = true
             if (self.shouldFetch) {
                 self.shouldFetch = false
                 self.performFetch()
@@ -161,7 +162,6 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
         FlickrPhotoDelegate.sharedInstance().addDelegate(annotation.location!, delegate: self)
         self.activityView = VTActivityViewController()
         self.activityView?.show(self, text: "Processing...")
-        
     }
     
     func progress(progress:CGFloat) {
@@ -169,9 +169,9 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
     }
     
     func didFinishLoad() {
-        let downloading = self.annotation.location!.isDownloading()
+        //let downloading = self.annotation.location!.isDownloading()
         dispatch_async(dispatch_get_main_queue()) {
-            self.updateToolBar(!downloading)
+            self.updateToolBar(true)
         }
     }
     
@@ -213,6 +213,7 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
         } else {
             noPhotosLabel.hidden = true
             collectionView.hidden = false
+            newCollectionButton.enabled = true
         }
     }
     
