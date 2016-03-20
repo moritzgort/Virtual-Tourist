@@ -17,10 +17,10 @@ public class FlickrPhotoDelegate: FlickrDelegate {
         return Static.instance
     }
     
-    var onLoad: Set<PinLocation> = Set()
-    var delegates: [PinLocation:FlickrDelegate] = [PinLocation:FlickrDelegate]()
+    var onLoad:Set<PinLocation> = Set()
+    var delegates:[PinLocation:FlickrDelegate] = [PinLocation:FlickrDelegate]()
     
-    public func didSearchLocationImages(success: Bool, location: PinLocation, photos: [Photo]?, errorString: String?) {
+    public func didSearchLocationImages(success:Bool, location:PinLocation, photos:[Photo]?, errorString:String?) {
         self.onLoad.remove(location)
         if let delegate = delegates[location] {
             delegate.didSearchLocationImages(success, location: location, photos: photos, errorString: errorString)
@@ -28,16 +28,16 @@ public class FlickrPhotoDelegate: FlickrDelegate {
         self.delegates.removeValueForKey(location)
     }
     
-    public func searchPhotos(location: PinLocation) {
+    public func searchPhotos(location:PinLocation) {
         self.onLoad.insert(location)
         FlickrClient.sharedInstance().getPhotosFromFlickrSearch(location, delegate: self)
     }
     
-    public func isLoading(location: PinLocation) -> Bool {
+    public func isLoading(location:PinLocation) -> Bool {
         return self.onLoad.contains(location)
     }
     
-    public func addDelegate(location: PinLocation, delegate: FlickrDelegate) {
+    public func addDelegate(location:PinLocation, delegate:FlickrDelegate) {
         delegates[location] = delegate
     }
 }

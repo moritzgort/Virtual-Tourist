@@ -12,8 +12,8 @@ import MapKit
 
 public class PinLocationDetail: NSManagedObject {
     
-    @NSManaged var locality: String
-    @NSManaged var location: PinLocation
+    @NSManaged var locality:String
+    @NSManaged var location:PinLocation
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -24,9 +24,5 @@ public class PinLocationDetail: NSManagedObject {
         
         self.locality = locality
         self.location = location
-    }
-
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

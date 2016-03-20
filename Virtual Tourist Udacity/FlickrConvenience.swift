@@ -13,8 +13,9 @@ private let MAX_PHOTOS = 39
 
 extension FlickrClient {
     
-    public func getPhotosFromFlickrSearch(annotation: PinLocation, delegate: FlickrDelegate?) {
-        self.getImageFromFlickrSearch(annotation) { success, result, errorString in print("Search Done!")
+    public func getPhotosFromFlickrSearch(annotation:PinLocation, delegate:FlickrDelegate?) {
+        self.getImageFromFlickrSearch(annotation) { success, result, errorString in
+            print("Flickr search done")
             if success {
                 let photos = [Photo]()
                 var urls:[NSURL] = [NSURL]()
@@ -22,21 +23,23 @@ extension FlickrClient {
                     if urls.count >= MAX_PHOTOS {
                         break
                     }
-                    let imageURLString = nextPhoto["url_m"] as? String
+                    let imageUrlString = nextPhoto["url_m"] as? String
                     
-                    if let imageURL = NSURL(string: imageURLString!) {
+                    if let imageURL = NSURL(string: imageUrlString!) {
                         urls.append(imageURL)
                     }
                 }
                 
                 if let pinLocation = self.sharedModelContext.objectWithID(annotation.objectID) as? PinLocation {
-                    _ = urls.map({Photo(location: pinLocation, imageURL: $0, context: self.sharedModelContext)})
+                    _ = urls.map({ Photo(location: pinLocation, imageURL: $0, context: self.sharedModelContext)})
                     NSNotificationCenter.defaultCenter().addObserver(self, selector: "mergeChanges:", name: NSManagedObjectContextDidSaveNotification, object: self.sharedModelContext)
-                    saveContext(self.sharedModelContext) { successs in dispatch_async(dispatch_get_main_queue()) {
-                        delegate?.didSearchLocationImages(true, location: annotation, photos: photos, errorString: nil)
+                    saveContext(self.sharedModelContext) { success in
+                        dispatch_async(dispatch_get_main_queue()) {
+                            delegate?.didSearchLocationImages(true, location: annotation, photos: photos, errorString: nil)
                         }
+                    }
                 }
-            }
+                
             } else {
                 delegate?.didSearchLocationImages(false, location: annotation, photos: nil, errorString: errorString)
             }

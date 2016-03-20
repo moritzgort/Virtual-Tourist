@@ -13,7 +13,7 @@ import CoreData
 
 class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, NSFetchedResultsControllerDelegate, FlickrDelegate, ImageLoadDelegate {
     
-    @IBOutlet weak var newCollection: UIBarButtonItem!
+    @IBOutlet weak var newCollectionButton: UIBarButtonItem!
     @IBOutlet weak var noPhotosLabel: UILabel!
     var annotation: MapPinAnnotation!
     @IBOutlet weak var mapView: MKMapView!
@@ -41,14 +41,15 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
         } else {
             self.performFetch()
             if self.annotation.location!.isDownloading() {
-                for next in annotation.location!.photos {
+                for next in annotation.location!.myPhotos {
                     if let downloadWorker = PendingPhotoDownloads.sharedInstance().downloadInProgress[next.description.hashValue] as? PhotoDownloadWorker {
                         downloadWorker.imageLoadDelegate.append(self)
                     }
                 }
             } else {
-                self.updateToolBar(annotation.location!.photos.count > 0)
+                self.updateToolBar(annotation.location!.myPhotos.count > 0)
             }
+            
         }
         
         if let details = self.annotation.location!.details {
@@ -63,9 +64,10 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
         super.viewWillAppear(animated)
         self.mapView.removeAnnotations(self.mapView.annotations)
         self.mapView.addAnnotation(self.annotation)
+        
         self.navigationItem.backBarButtonItem?.title = "Back"
         
-        let region: MKCoordinateRegion = MKCoordinateRegion(center: self.annotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 1.0, longitudeDelta: 1.0))
+        let region:MKCoordinateRegion = MKCoordinateRegion(center: self.annotation.coordinate, span: MKCoordinateSpan(latitudeDelta: 1.0, longitudeDelta: 1.0))
         self.mapView.setRegion(region, animated: true)
     }
     
@@ -75,10 +77,11 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         collectionView.collectionViewLayout = getCollectionLayout()
     }
     
-    func handleLongPress(recognizer: UILongPressGestureRecognizer) {
+    func handleLongPress(recognizer:UILongPressGestureRecognizer) {
         if (recognizer.state != UIGestureRecognizerState.Ended) {
             return
         }
@@ -95,7 +98,7 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
     }
     
     func getCollectionLayout() -> UICollectionViewFlowLayout {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
@@ -105,20 +108,18 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
         return layout
     }
     
-    func didSearchLocationImages(success: Bool, location: PinLocation, photos: [Photo]?, errorString: String?) {
-        for next in annotation.location!.photos {
+    func didSearchLocationImages(success:Bool, location:PinLocation, photos:[Photo]?, errorString:String?) {
+        for next in annotation.location!.myPhotos {
             if let downloadWorker = PendingPhotoDownloads.sharedInstance().downloadInProgress[next.description.hashValue] as? PhotoDownloadWorker {
                 downloadWorker.imageLoadDelegate.append(self)
             }
         }
-        
         dispatch_async(dispatch_get_main_queue()) {
-            let noPhotos = self.annotation.location!.photos.count == 0
+            let noPhotos = self.annotation.location!.myPhotos.count == 0
             self.noPhotosLabel.hidden = !noPhotos
             self.activityView?.closeView()
             self.activityView = nil
             self.collectionView.hidden = false
-            
             if (self.shouldFetch) {
                 self.shouldFetch = false
                 self.performFetch()
@@ -133,14 +134,15 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
                 })
             }
         }
+        
     }
     
     func updateToolBar(enabled: Bool) {
-        self.newCollection.enabled = enabled
+        self.newCollectionButton.enabled = enabled
     }
     
-    @IBAction func newCollection(sender: UIBarButtonItem) {
-        for photo in self.annotation.location!.photos {
+    @IBAction func newCollectionButton(sender: UIBarButtonItem) {
+        for photo in self.annotation.location!.myPhotos {
             photo.pinLocation = nil
             photo.image = nil
             self.sharedContext.deleteObject(photo)
@@ -153,16 +155,17 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
     func searchPhotosForLocation() {
         FlickrPhotoDelegate.sharedInstance().searchPhotos(self.annotation.location!)
         self.collectionView.hidden = true
-        self.newCollection.enabled = false
+        self.newCollectionButton.enabled = false;
         self.view.layoutIfNeeded()
         self.updateToolBar(false)
         FlickrPhotoDelegate.sharedInstance().addDelegate(annotation.location!, delegate: self)
         self.activityView = VTActivityViewController()
         self.activityView?.show(self, text: "Processing...")
+        
     }
     
-    func progress(progress: CGFloat) {
-        //Nothing
+    func progress(progress:CGFloat) {
+        //do nothings
     }
     
     func didFinishLoad() {
@@ -172,13 +175,13 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
         }
     }
     
-    func configureCell(cell: PhotoCell, atIndexPath indexPath: NSIndexPath) {
+    func configureCell(cell: PhotoCell, atIndexPath indexPath:NSIndexPath) {
         let photo = self.fetchedResultsViewController.objectAtIndexPath(indexPath) as! Photo
         
         cell.photo = photo
     }
     
-    lazy var fetchedResultsViewController: NSFetchedResultsController = {
+    lazy var fetchedResultsViewController:NSFetchedResultsController = {
         let fetchRequest = NSFetchRequest(entityName: "Photo")
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "imagePath", ascending: true)]
         fetchRequest.predicate = NSPredicate(format: "pinLocation == %@", self.annotation.location!)
@@ -188,12 +191,12 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
         return fetchedResultsController
     }()
     
-    lazy var sharedContext: NSManagedObjectContext = {
+    lazy var sharedContext:NSManagedObjectContext = {
         return CoreDataStackManager.sharedInstance().dataStack.managedObjectContext
     }()
     
     private func performFetch() {
-        var error: NSError?
+        var error:NSError?
         NSFetchedResultsController.deleteCacheWithName("photos")
         do {
             try self.fetchedResultsViewController.performFetch()
@@ -201,11 +204,11 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
             error = error1
         }
         if let _ = error {
-            print("Error performing fetch")
+            print("Error performing initial fetch")
         }
         let sectionInfo = self.fetchedResultsViewController.sections!.first!
         if sectionInfo.numberOfObjects == 0 {
-            noPhotosLabel.hidden = self.activityView == nil ? false: true
+            noPhotosLabel.hidden = self.activityView == nil ? false : true
             collectionView.hidden = true
         } else {
             noPhotosLabel.hidden = true
@@ -220,7 +223,7 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sectionInfo = self.fetchedResultsViewController.sections![section]
         
-        if let photos = self.annotation!.location?.photos where photos.count == 0 && self.isViewLoaded() && self.view.window != nil && self.newCollection.enabled && !FlickrPhotoDelegate.sharedInstance().isLoading(annotation.location!) {
+        if let photos = self.annotation!.location?.myPhotos where photos.count == 0 && self.isViewLoaded() && self.view.window != nil && self.newCollectionButton.enabled && !FlickrPhotoDelegate.sharedInstance().isLoading(annotation.location!) {
             noPhotosLabel.hidden = false
             collectionView.hidden = true
             dispatch_async(dispatch_get_main_queue()) {
@@ -251,12 +254,14 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
     }
     
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        
         insertedIndexPaths = [NSIndexPath]()
         deletedIndexPaths = [NSIndexPath]()
         updatedIndexPaths = [NSIndexPath]()
     }
     
     func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+        
         switch type {
         case .Insert:
             self.insertedIndexPaths.append(newIndexPath!)
@@ -285,6 +290,7 @@ class VirtualTouristGalleryViewController: UIViewController, UICollectionViewDat
             if self.updatedIndexPaths.count > 0 {
                 self.collectionView.reloadItemsAtIndexPaths(self.updatedIndexPaths)
             }
-        }, completion: nil)
+            
+            }, completion: nil)
     }
 }

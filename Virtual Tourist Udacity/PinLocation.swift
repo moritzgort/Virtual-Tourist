@@ -11,20 +11,20 @@ import CoreData
 
 @objc(PinLocation)
 
-public class PinLocation: NSManagedObject {
+public class PinLocation : NSManagedObject {
     
-    @NSManaged public var latitude: NSNumber
-    @NSManaged public var longitude: NSNumber
-    @NSManaged public var photos: [Photo]
-    @NSManaged public var details: PinLocationDetail?
+    @NSManaged public var latitude:NSNumber
+    @NSManaged public var longitude:NSNumber
+    @NSManaged public var myPhotos:[Photo]
+    @NSManaged public var details:PinLocationDetail?
     
-    override public var description: String {
+    override public var description:String {
         get {
             return "latitude:\(self.latitude)::longitude:\(self.longitude)"
         }
     }
     
-    override public var hashValue: Int {
+    override public var hashValue : Int {
         get {
             return self.description.hashValue
         }
@@ -34,7 +34,7 @@ public class PinLocation: NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    convenience init(latitude: NSNumber, longitude: NSNumber, context: NSManagedObjectContext) {
+    convenience init(latitude:NSNumber, longitude:NSNumber, context:NSManagedObjectContext) {
         self.init(context: context)
         
         self.latitude = latitude
@@ -44,7 +44,7 @@ public class PinLocation: NSManagedObject {
     func isDownloading() -> Bool {
         var result = false
         
-        for next in self.photos {
+        for next in self.myPhotos {
             if let downloadWorker = PendingPhotoDownloads.sharedInstance().downloadInProgress[next.description.hashValue] as? PhotoDownloadWorker {
                 if downloadWorker.isDownloading() {
                     result = true
@@ -52,6 +52,7 @@ public class PinLocation: NSManagedObject {
                 }
             }
         }
+        
         return result
     }
 }

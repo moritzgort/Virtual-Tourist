@@ -59,10 +59,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="deleteView" destination="Hvv-RJ-yty" id="Nrb-jY-dcx"/>
+                        <outlet property="deleteView" destination="Hvv-RJ-yty" id="yya-lO-SOk"/>
                         <outlet property="deleteViewTopConstraint" destination="WEQ-Ts-QSp" id="h3v-Sd-C8J"/>
-                        <outlet property="editButton" destination="OOG-tp-6RY" id="CpZ-Ia-kl3"/>
-                        <outlet property="mapView" destination="FLE-1D-B0x" id="RaA-dW-VPv"/>
+                        <outlet property="editButton" destination="OOG-tp-6RY" id="tLb-KD-9M5"/>
+                        <outlet property="mapView" destination="FLE-1D-B0x" id="Afs-kQ-fRl"/>
                         <outlet property="mapViewBottomConstraint" destination="EdE-LK-Q3S" id="iX9-pN-Jew"/>
                         <segue destination="0ap-HX-9ec" kind="show" identifier="gallerySegue" id="X7y-re-WPV">
                             <nil key="action"/>
@@ -168,7 +168,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="3a7-zq-lcs"/>
                                     <barButtonItem title="New Collection" id="dwC-wM-Rf5">
                                         <connections>
-                                            <action selector="newCollection:" destination="0ap-HX-9ec" id="xNf-nF-dYE"/>
+                                            <action selector="newCollectionButton:" destination="0ap-HX-9ec" id="W5j-UQ-FkB"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="VQU-aj-MsK"/>
@@ -202,8 +202,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="1Ot-QN-R0r" id="oiJ-kJ-LWV"/>
-                        <outlet property="mapView" destination="MrV-Vb-8Bs" id="DEJ-b4-KkO"/>
-                        <outlet property="newCollection" destination="dwC-wM-Rf5" id="0LO-fX-6yJ"/>
+                        <outlet property="mapView" destination="MrV-Vb-8Bs" id="Y6r-pe-dOT"/>
+                        <outlet property="newCollectionButton" destination="dwC-wM-Rf5" id="aWD-EY-Ym1"/>
                         <outlet property="noPhotosLabel" destination="owm-gV-8Tj" id="K4e-lG-lm7"/>
                     </connections>
                 </viewController>

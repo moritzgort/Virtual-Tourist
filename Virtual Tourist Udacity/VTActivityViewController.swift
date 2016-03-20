@@ -72,8 +72,10 @@ public class VTActivityViewController: UIViewController {
         self.processingLabel.frame = CGRect(x: self.padding, y: yPos, width: 100 - (self.padding*2), height: ceil(processingRect.size.height))
         yPos += ceil(processingRect.size.height) + 8
         
+        // size the background view
         self.activityBackgroundView.frame = CGRect(x: 0, y: 0, width: 100, height: yPos)
         
+        // size the container that holds everything together
         self.containerView.frame = CGRect(x: (self.viewWidth!-100)/2, y: (self.viewHeight! - yPos)/2, width: 25, height: yPos)
         
         self.activity.frame.origin = CGPoint(x: self.containerView.bounds.origin.x + 38, y: self.containerView.bounds.origin.y + self.padding)
@@ -90,12 +92,14 @@ public class VTActivityViewController: UIViewController {
         self.viewWidth = sz.width
         self.viewHeight = sz.height
         
+        // Container for the entire alert modal contents
         self.containerView = UIView()
         self.containerView.layer.shadowOffset = CGSizeMake(3, 3)
         self.containerView.layer.shadowOpacity = 0.8
         self.containerView.layer.shadowRadius = 2
         self.view.addSubview(self.containerView!)
         
+        // Background view/main color
         self.activityBackgroundView = UIView()
         activityBackgroundView.backgroundColor = baseColor
         activityBackgroundView.layer.cornerRadius = 4
@@ -116,6 +120,7 @@ public class VTActivityViewController: UIViewController {
         self.processingLabel.text = text
         self.containerView.addSubview(self.processingLabel)
         
+        // Animate it in
         self.view.alpha = 0
         UIView.animateWithDuration(0.2, animations: {
             self.view.alpha = 1
@@ -151,4 +156,3 @@ public class VTActivityViewController: UIViewController {
         self.view.removeFromSuperview()
     }
 }
-

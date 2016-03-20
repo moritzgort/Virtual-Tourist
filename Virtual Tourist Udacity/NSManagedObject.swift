@@ -17,7 +17,7 @@ extension NSManagedObject {
         return nameComponents.last!
     }
     
-    convenience init(context: NSManagedObjectContext) {
+    convenience init(context:NSManagedObjectContext) {
         let name = self.dynamicType.entityName()
         let entity = NSEntityDescription.entityForName(name, inManagedObjectContext: context)!
         self.init(entity: entity, insertIntoManagedObjectContext: context)

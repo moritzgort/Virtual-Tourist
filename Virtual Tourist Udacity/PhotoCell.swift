@@ -57,4 +57,3 @@ class PhotoCell: UICollectionViewCell, ImageLoadDelegate {
         }
     }
 }
-

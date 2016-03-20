@@ -15,7 +15,7 @@ extension VirtualTouristMapViewController: MKMapViewDelegate {
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if let annotation = annotation as? MapPinAnnotation {
             let identifier = "pin"
-            var view: MKPinAnnotationView
+            var view:MKPinAnnotationView
             if let dequeuedView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView {
                 dequeuedView.annotation = annotation
                 view = dequeuedView
@@ -28,11 +28,10 @@ extension VirtualTouristMapViewController: MKMapViewDelegate {
         return nil
     }
     
-    func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         if self.editMode {
             if let pinAnnotation = view as? MKPinAnnotationView {
                 let annotation = pinAnnotation.annotation as! MapPinAnnotation
-                
                 if !annotation.location!.isDownloading() {
                     dispatch_async(dispatch_get_main_queue()) {
                         self.sharedContext.deleteObject(annotation.location!)
